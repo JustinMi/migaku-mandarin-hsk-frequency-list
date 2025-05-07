@@ -10,7 +10,7 @@ JSON_FILE_PATHS = [
     'complete-hsk-vocabulary/wordlists/exclusive/old/5.json',
     'complete-hsk-vocabulary/wordlists/exclusive/old/6.json',
 ]
-OUTPUT_FILE_PATH = "HSK.json"
+OUTPUT_FILE_PATH = "HSK_test.json"
 
 # Define the ranges for each JSON file
 RANGES = [
@@ -80,15 +80,11 @@ if __name__ == "__main__":
     with open(OUTPUT_FILE_PATH, 'w', encoding='utf-8') as output_file:
         output_file.write("[")
         for index, word in enumerate(giant_list):
-            if word == ["", ""] or word == ["N5", "N5"]:
-                # Write all padding on a single line
-                output_file.write(f"[\"{word[0]}\", \"{word[1]}\"]")
-            else:
-                output_file.write(f"\n[\"{word[0]}\", \"{word[1]}\"]")
+            output_file.write(f"[\"{word[0]}\", \"{word[1]}\"]")
 
             # Add a comma unless it's the last element
             if index < len(giant_list) - 1:
-                output_file.write(", ")
+                output_file.write(", \n")
         output_file.write("]")
 
     print(f"Giant list has been written to {OUTPUT_FILE_PATH}")
