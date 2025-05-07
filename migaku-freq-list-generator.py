@@ -42,7 +42,7 @@ def extract_simplified_words(file_path: str) -> list:
     simplified_words_with_pinyin = [
         [
             entry.get("simplified", "").lower(),
-            entry["forms"][0]["transcriptions"].get("pinyin", "").lower()
+            entry["forms"][0]["transcriptions"].get("numeric", "").lower()
         ]
         for entry in data if "simplified" in entry and "forms" in entry
     ]
@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
         # Calculate padding needed
         if end is not None:
-            padding_needed = end - start + 1 - len(extracted_words)
+            padding_needed = end - start - len(extracted_words)
         else:
             padding_needed = 0  # No padding for the last file
 
@@ -80,7 +80,11 @@ if __name__ == "__main__":
     with open(OUTPUT_FILE_PATH, 'w', encoding='utf-8') as output_file:
         output_file.write("[")
         for word in giant_list:
-            output_file.write(f"[\"{word[0]}\", \"{word[1]}\"],\n")
-        output_file.write("]\n")
+            if word == ["", ""] or word == ["N5", "N5"]:
+                # Write all padding on a single line
+                output_file.write(f"[\"{word[0]}\", \"{word[1]}\"], ")
+            else:
+                output_file.write(f"\n[\"{word[0]}\", \"{word[1]}\"],")
+        output_file.write("]")
 
     print(f"Giant list has been written to {OUTPUT_FILE_PATH}")
