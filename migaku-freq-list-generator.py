@@ -79,12 +79,16 @@ if __name__ == "__main__":
     # Write the giant list to the output file
     with open(OUTPUT_FILE_PATH, 'w', encoding='utf-8') as output_file:
         output_file.write("[")
-        for word in giant_list:
+        for index, word in enumerate(giant_list):
             if word == ["", ""] or word == ["N5", "N5"]:
                 # Write all padding on a single line
-                output_file.write(f"[\"{word[0]}\", \"{word[1]}\"], ")
+                output_file.write(f"[\"{word[0]}\", \"{word[1]}\"]")
             else:
-                output_file.write(f"\n[\"{word[0]}\", \"{word[1]}\"],")
+                output_file.write(f"\n[\"{word[0]}\", \"{word[1]}\"]")
+
+            # Add a comma unless it's the last element
+            if index < len(giant_list) - 1:
+                output_file.write(", ")
         output_file.write("]")
 
     print(f"Giant list has been written to {OUTPUT_FILE_PATH}")
