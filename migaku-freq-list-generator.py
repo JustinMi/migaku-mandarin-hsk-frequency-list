@@ -1,7 +1,7 @@
 import json
 import os
 
-# Path to the JSON files
+# Path to the JSON files from https://github.com/drkameleon/complete-hsk-vocabulary/tree/main
 JSON_FILE_PATHS = [
     'complete-hsk-vocabulary/wordlists/exclusive/old/1.json',
     'complete-hsk-vocabulary/wordlists/exclusive/old/2.json',
@@ -10,9 +10,14 @@ JSON_FILE_PATHS = [
     'complete-hsk-vocabulary/wordlists/exclusive/old/5.json',
     'complete-hsk-vocabulary/wordlists/exclusive/old/6.json',
 ]
-OUTPUT_FILE_PATH = "HSK_test.json"
+OUTPUT_FILE_PATH = "HSK.json"
 
-# Define the ranges for each JSON file
+# Define the ranges for each JSON file. Migaku's frequency list format is divided into ranges:
+# 1st - 1500th element: 5 stars
+# 1501st - 5000th: 4 stars
+# 5001st - 15000th: 3 stars
+# 15001st - 30000th: 2 stars
+# 30001st+: 1 star
 RANGES = [
     (1, 1500),       # 1.json + 2.json
     (1501, 5000),    # 3.json
@@ -26,7 +31,7 @@ SECTION_HEADERS = ["HSK1 and HSK2", "HSK3", "HSK4", "HSK5", "HSK6"]
 
 def extract_simplified_words(file_path: str) -> list:
     """
-    Extracts simplified words and their numeric transcriptions from a JSON file.
+    Extracts simplified words from a JSON file.
 
     Args:
         file_path (str): The path to the JSON file.
@@ -38,22 +43,19 @@ def extract_simplified_words(file_path: str) -> list:
     with open(file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
-    # Extract all "simplified" entries with their "numeric" transcription
-    simplified_words_with_pinyin = [
-        [
-            entry.get("simplified", "").lower(),
-            entry["forms"][0]["transcriptions"].get("numeric", "").lower()
-        ]
-        for entry in data if "simplified" in entry and "forms" in entry
+    # Extract all "simplified" entries
+    simplified_words = [
+        entry.get("simplified", "").lower()
+        for entry in data if "simplified" in entry
     ]
-    return simplified_words_with_pinyin
+    return simplified_words
 
 if __name__ == "__main__":
     giant_list = []
 
     for i, (start, end) in enumerate(RANGES):
         # Add the section header
-        section_header = [SECTION_HEADERS[i], SECTION_HEADERS[i]]
+        section_header = SECTION_HEADERS[i]
         giant_list.append(section_header)
 
         if i == 0:
@@ -74,17 +76,20 @@ if __name__ == "__main__":
 
         # Add padding if needed
         if padding_needed > 0:
-            giant_list.extend([["", ""]] * padding_needed)
+            giant_list.extend([""] * padding_needed)
 
     # Write the giant list to the output file
     with open(OUTPUT_FILE_PATH, 'w', encoding='utf-8') as output_file:
         output_file.write("[")
-        for index, word in enumerate(giant_list):
-            output_file.write(f"[\"{word[0]}\", \"{word[1]}\"]")
-
+        for idx, word in enumerate(giant_list):
+            if word == "":
+                output_file.write("\"\"")
+            else:
+                output_file.write(f"\"{word}\"")
+            
             # Add a comma unless it's the last element
-            if index < len(giant_list) - 1:
+            if idx < len(giant_list) - 1:
                 output_file.write(", \n")
         output_file.write("]")
 
-    print(f"Giant list has been written to {OUTPUT_FILE_PATH}")
+    print(f"Giant list of characters has been written to {OUTPUT_FILE_PATH}")
