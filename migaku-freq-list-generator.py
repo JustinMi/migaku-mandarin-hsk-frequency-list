@@ -82,10 +82,7 @@ if __name__ == "__main__":
     with open(OUTPUT_FILE_PATH, 'w', encoding='utf-8') as output_file:
         output_file.write("[")
         for idx, word in enumerate(giant_list):
-            if word == "":
-                output_file.write("\"\"")
-            else:
-                output_file.write(f"\"{word}\"")
+            output_file.write(f"\"{word}\"")
             
             # Add a comma unless it's the last element
             if idx < len(giant_list) - 1:
