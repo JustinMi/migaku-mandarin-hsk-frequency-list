@@ -1,0 +1,94 @@
+# HSK Vocabulary List Generator
+
+This project contains two things:
+1. A ready-made frequency list of Mandarin vocab based on HSK 2.0 levels. If you're looking for a pre-made list, you can just download HSK.json, import it into Migaku, and be done with it.
+2. The Python script that generates the list. If you want, you can use it to create a modified HSK list.
+
+## How to use HSK.json
+
+### Instructions
+
+1. Download HSK.json.
+2. Install it in Migaku's settings page.
+
+### Details
+
+Migaku's frequency list format is described [here](https://legacy.migaku.io/tools-guides/migaku-dictionary/manual/#frequency-list-format).
+
+The list is divided into ranges:
+- 1st - 1500th element: 5 stars
+- 1501st - 5000th: 4 stars
+- 5001st - 15000th: 3 stars
+- 15001st - 30000th: 2 stars
+- 30001st+: 1 star
+
+HSK.json is set up such that:
+- HSK 1 and HSK 2 vocab are given 5 stars
+- HSK 3 is given 4 stars
+- HSK 4 is given 3 stars
+- HSK 5 is given 2 stars
+- HSK 6 is given 1 star
+
+We add `""` as padding to fill the gap between the end of one vocabulary list and the start of the next range.
+For example, if the vocab list for an HSK level fills elements 1-300 and the next range starts at 1501, then we fill the gap between 301 and 1500 with `""`.
+
+
+## How to generate your own HSK frequency list
+
+You may want to change my decision to combine HSK 1 and 2 into the 5 stars category. Or you may want to generate an HSK 3.0 list. Here is how:
+
+### Prerequisites
+
+1. Ensure you have Python 3.7 or higher installed.
+2. Clone a dump of all HSK 2.0 and 3.0 vocabulary from https://github.com/drkameleon/complete-hsk-vocabulary/tree/main.
+
+### How to Use
+
+1. Ensure prerequisites are done
+2. Clone the Repository
+3. Run the script to generate the vocab list: 
+```bash
+python3 migaku-freq-list-generator.py
+```
+4. Output: The output file, HSK.json, will be created in the project directory. It contains characters grouped by HSK levels, with padding to ensure consistent ranges.
+
+### How to modify
+
+#### Change Section Headers
+To change the section headers (e.g., "HSK3", "HSK4"), update the SECTION_HEADERS variable:
+
+```python
+SECTION_HEADERS = ["HSK1 and HSK2", "HSK3", "HSK4", "HSK5", "HSK6"]
+```
+
+You can also remove section headers; they're included for quality of life reasons but they shouldn't affect things either way.
+
+#### Modify Input Files
+The script reads JSON files from the JSON_FILE_PATHS list. To add or remove input files, update this list:
+
+```python
+JSON_FILE_PATHS = [
+    'complete-hsk-vocabulary/wordlists/exclusive/old/1.json',
+    'complete-hsk-vocabulary/wordlists/exclusive/old/2.json',
+    ...
+]
+```
+
+#### Change Output File Name
+To change the name of the output file, update the OUTPUT_FILE_PATH variable:
+
+```python
+OUTPUT_FILE_PATH = "HSK.json"
+```
+
+#### Modify which HSK level is assigned to  which category
+By default, HSK 1 and HSK 2 are combined into 5 stars. To modify, change this section of the code:
+
+```python
+if i == 0:
+    # Combine 1.json and 2.json for the first range
+    extracted_words = extract_simplified_words(JSON_FILE_PATHS[0]) + extract_simplified_words(JSON_FILE_PATHS[1])
+else:
+    # Use the corresponding JSON file for other ranges
+    extracted_words = extract_simplified_words(JSON_FILE_PATHS[i + 1])
+```

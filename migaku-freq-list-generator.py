@@ -65,7 +65,8 @@ if __name__ == "__main__":
             # Use the corresponding JSON file for other ranges
             extracted_words = extract_simplified_words(JSON_FILE_PATHS[i + 1])
 
-        # Calculate padding needed
+        # Calculate padding needed. We add `""` as padding to fill the gap between the end of one vocabulary list and the start of the next range.
+        # For example, if the vocab list fills elements 1-300 and the next range starts at 1501, then we need to fill the gap between 301 and 1500.
         if end is not None:
             padding_needed = end - start - len(extracted_words)
         else:
