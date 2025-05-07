@@ -22,7 +22,7 @@ RANGES = [
 ]
 
 # Section headers for each range
-SECTION_HEADERS = ["N5", "N4", "N3", "N2", "N1"]
+SECTION_HEADERS = ["HSK1 and HSK2", "HSK3", "HSK4", "HSK5", "HSK6"]
 
 def extract_simplified_words(file_path: str) -> list:
     """
