@@ -1,8 +1,8 @@
 # HSK Vocabulary List Generator
 
 This project contains two things:
-1. A ready-made frequency list of Mandarin vocab based on HSK 2.0 levels. If you're looking for a pre-made list, you can just download HSK.json, import it into Migaku, and be done with it.
-2. The Python script that generates the list. If you want, you can use it to create a modified HSK list.
+1. A ready-made frequency list of Mandarin vocab based on HSK 2.0 levels. If you're looking for a pre-made list, you can just download HSK.json, import it into Migaku, and be done with it. See [How to use HSK.json](#how-to-use-hskjson) for instructions and details.
+2. The Python script that generates the list. If you want, you can use it to create a modified HSK list. See [How to generate your own HSK frequency list](#how-to-generate-your-own-hsk-frequency-list) for instructions and details.
 
 ## How to use HSK.json
 
@@ -22,20 +22,23 @@ The list is divided into ranges:
 - 15001st - 30000th: 2 stars
 - 30001st+: 1 star
 
-HSK.json is set up such that:
-- HSK 1 and HSK 2 vocab are given 5 stars
-- HSK 3 is given 4 stars
-- HSK 4 is given 3 stars
-- HSK 5 is given 2 stars
-- HSK 6 is given 1 star
+HSK.json uses HSK 2.0 vocabulary and levels. It's set up such that:
+- HSK level 1 and HSK level 2 vocab are given 5 stars
+- HSK level 3 is given 4 stars
+- HSK level 4 is given 3 stars
+- HSK level 5 is given 2 stars
+- HSK level 6 is given 1 star
+
+If it looks backwards, it's because Migaku's "Recommended Sentences" feature searches words from 5 stars first. So this way the most basic words in HSK 1 and 2 are prioritized for recommendation.
 
 We add `""` as padding to fill the gap between the end of one vocabulary list and the start of the next range.
 For example, if the vocab list for an HSK level fills elements 1-300 and the next range starts at 1501, then we fill the gap between 301 and 1500 with `""`.
 
+We add section headers like "HSK 3" and "HSK 4" for quality of life and searchability reasons but they shouldn't affect anything.
 
 ## How to generate your own HSK frequency list
 
-You may want to change my decision to combine HSK 1 and 2 into the 5 stars category. Or you may want to generate an HSK 3.0 list. Here is how:
+You may want to change the decision to combine HSK 1 and 2 into the 5 stars category. Or you may want to generate an HSK 3.0 list. Here is how:
 
 ### Prerequisites
 
@@ -45,7 +48,7 @@ You may want to change my decision to combine HSK 1 and 2 into the 5 stars categ
 ### How to Use
 
 1. Ensure prerequisites are done
-2. Clone the Repository
+2. Clone this repository
 3. Run the script to generate the vocab list: 
 ```bash
 python3 migaku-freq-list-generator.py
