@@ -2,3 +2,6 @@
 # all files in the repository will be ignored.
 complete-hsk-vocabulary/*
 .DS_Store
+
+# I have some backup files that I don't want to include in the repository.
+HSK_backup*.json
