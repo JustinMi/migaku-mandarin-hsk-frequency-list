@@ -17,17 +17,19 @@ OUTPUT_FILE_PATH = "HSK.json"
 # 1501st - 5000th: 4 stars
 # 5001st - 15000th: 3 stars
 # 15001st - 30000th: 2 stars
-# 30001st+: 1 star
+# 30001st - 60000th: 1 star
+# 60001st and above: 0 stars
 RANGES = [
-    (1, 1500),       # 1.json + 2.json
-    (1501, 5000),    # 3.json
-    (5001, 15000),   # 4.json
-    (15001, 30000),  # 5.json
-    (30001, None),   # 6.json (no upper limit)
+    (1, 1500),       # 1.json
+    (1501, 5000),    # 2.json
+    (5001, 15000),   # 3.json
+    (15001, 30000),  # 4.json
+    (30001, 60000),   # 5.json
+    (60001, None)   # 6.json (no upper limit)
 ]
 
 # Section headers for each range
-SECTION_HEADERS = ["HSK1 and HSK2", "HSK3", "HSK4", "HSK5", "HSK6"]
+SECTION_HEADERS = ["HSK1", "HSK2", "HSK3", "HSK4", "HSK5", "HSK6"]
 
 def extract_simplified_words(file_path: str) -> list:
     """
@@ -58,12 +60,8 @@ if __name__ == "__main__":
         section_header = SECTION_HEADERS[i]
         giant_list.append(section_header)
 
-        if i == 0:
-            # Combine 1.json and 2.json for the first range
-            extracted_words = extract_simplified_words(JSON_FILE_PATHS[0]) + extract_simplified_words(JSON_FILE_PATHS[1])
-        else:
-            # Use the corresponding JSON file for other ranges
-            extracted_words = extract_simplified_words(JSON_FILE_PATHS[i + 1])
+        # Extract words from the JSON file
+        extracted_words = extract_simplified_words(JSON_FILE_PATHS[i])
 
         # Calculate padding needed. We add `""` as padding to fill the gap between the end of one vocabulary list and the start of the next range.
         # For example, if the vocab list fills elements 1-300 and the next range starts at 1501, then we need to fill the gap between 301 and 1500.
