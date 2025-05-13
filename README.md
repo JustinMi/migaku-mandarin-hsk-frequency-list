@@ -8,7 +8,7 @@ This project contains two things:
 
 ### Instructions
 
-1. Download HSK.json.
+1. Download [HSK.json](https://github.com/JustinMi/migaku-mandarin-hsk-frequency-list/blob/main/HSK.json).
 2. Install it in Migaku's settings page.
 
 ### Details
@@ -19,6 +19,7 @@ The list is divided into ranges:
 - 1st - 1500th element: 5 stars
 - 1501st - 5000th: 4 stars
 - 5001st - 15000th: 3 stars
+- 15001st - 30000th: 2 stars
 - 30001st - 60000th: 1 star
 - 60001st and above: 0 stars
 
