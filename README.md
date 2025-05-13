@@ -21,7 +21,7 @@ The list is divided into ranges:
 - 5001st - 15000th: 3 stars
 - 15001st - 30000th: 2 stars
 - 30001st - 60000th: 1 star
-- 60001st and above: 0 stars
+- 60001st and above: 0 stars (still shows up as an explicit tag for 0 stars)
 
 HSK.json uses HSK 2.0 vocabulary and levels. It's set up such that:
 - HSK level 1 is given 5 stars
